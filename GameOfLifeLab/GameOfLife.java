@@ -271,45 +271,35 @@ public class GameOfLife
             {
                 Location loc = new Location(row, col);
                 int size = grid.getOccupiedAdjacentLocations(loc).size();
-                if(getActor(row, col)!= null)
+                if(getActor(row, col)!= null && (size ==2 || size == 3))
                 {
-                    if(size < 2)
-                    {
-                        newGrid.remove(loc);
-                    }
-                    else if(size ==2 || size == 3)
-                    {
-                        newGrid.put(loc, new Rock());
-                    }
-                    else if(size >3)
-                    {
-                        newGrid.remove(loc);
-                    }
+                    
+                    newGrid.put(loc, new Rock());
+                    
                 }
-                else
+                else if (size == 3)
                 {
-                    if(size == 3)
-                    {
-                        Rock newRock = new Rock();
-                        newGrid.put(loc, newRock);
-                    }
+                    Rock newRock = new Rock();
+                    newGrid.put(loc, newRock);
                 }
             }
         }
-        if(newGrid.toString().equals(grid.toString()))
-        {
-            System.out.println("Still life achieved!");
-            
-        }
-        
-        world.setGrid(newGrid);
-        world.show();
+
         if(newGrid.toString().equals("{}"))
         {
             System.out.println("All cells have died. System will exit.");
             Thread.sleep(5000);
             System.exit(0);
         }
+        else if(newGrid.toString().length()==grid.toString().length())
+        {
+            System.out.println("Still/Stable life achieved!");
+
+        }
+
+        world.setGrid(newGrid);
+        world.show();
+        
     }
 
     /**
