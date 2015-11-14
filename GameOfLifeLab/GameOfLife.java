@@ -21,6 +21,8 @@ public class GameOfLife
     // the game board will have 5 rows and 5 columns
     private static int ROWS = 10;
     private static int COLS = 10;
+    private static int iter = 5;
+    private static int sleepTime = 1000;
 
     /**
      * Default constructor for objects of class GameOfLife
@@ -74,8 +76,8 @@ public class GameOfLife
         }
         else
         {
-            x = new int[] {5};
-            y = new int[] {5};
+            x = new int[] {0};
+            y = new int[] {0};
 
         }
         for(int i=0;i<x.length;i++)
@@ -94,7 +96,7 @@ public class GameOfLife
      * @post    the world has been populated with a new grid containing the next generation
      * 
      */
-    public void createNextGeneration() throws InterruptedException
+    public void createNextGeneration()
     {
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
@@ -110,14 +112,9 @@ public class GameOfLife
             {
                 Location loc = new Location(row, col);
                 int size = grid.getOccupiedAdjacentLocations(loc).size();
-                if(getActor(row, col)!= null && (size ==2 || size == 3))
+                if( size == 3 || (getActor(row, col)!= null && size ==2))
                 {
                     newGrid.put(loc, new Rock());
-                }
-                else if (size == 3)
-                {
-                    Rock newRock = new Rock();
-                    newGrid.put(loc, newRock);
                 }
             }
         }
@@ -174,28 +171,44 @@ public class GameOfLife
             System.out.println();
         }
 
+        GameOfLife game;
+        
         String pattern = "default";
         java.util.Scanner s = new java.util.Scanner(System.in);
-        System.out.println("Pattern: default or line or custom?");
+        System.out.println("Pattern: default, line or custom?");
         pattern = s.next();
-        
-        System.out.println("Rows?");
-        ROWS = s.nextInt();
-        System.out.println("Columns?");
-        COLS = s.nextInt();
-        
-        GameOfLife game = new GameOfLife(pattern);
-
-        if(pattern.toLowerCase().equals("custom"))
+        if(pattern.toLowerCase().equals("default"))
         {
+            iter = 10;
+            game = new GameOfLife(pattern);
+        }
+        else if(pattern.toLowerCase().equals("custom"))
+        {
+            System.out.println("Rows?");
+            ROWS = s.nextInt();
+            System.out.println("Columns?");
+            COLS = s.nextInt();
+            game = new GameOfLife(pattern);
+            System.out.println("Would you like to remove the automatically-placed rock? (y/n)");
+            String remRock = s.next();
+            if(remRock.toLowerCase().equals("y"))
+            {
+                game.world.getGrid().remove(new Location(0,0));
+            }
             System.out.println("Make your pattern, then enter any character and press enter.");
             s.next();
+            System.out.println("How many iterations?");
+            iter = s.nextInt();
+            System.out.println("How many milliseconds between iterations?");
+            sleepTime = s.nextInt();
+        }
+        else
+        {
+            game = new GameOfLife(pattern);
         }
 
-        System.out.println("How many iterations?");
-        int iter = s.nextInt();
-        System.out.println("How many milliseconds between iterations?");
-        int sleepTime = s.nextInt();
+        
+        
         Thread.sleep(sleepTime);
         for(int i=0;i<iter;i++)
         {
