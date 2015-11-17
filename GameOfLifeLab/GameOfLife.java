@@ -27,6 +27,7 @@ public class GameOfLife
     /**
      * Default constructor for objects of class GameOfLife
      * 
+     * @param pattern the pattern specified by the user
      * @post    the game will be initialized and populated with the initial state of cells
      * 
      */
@@ -47,8 +48,9 @@ public class GameOfLife
     }
 
     /**
-     * Creates the actors and inserts them into their initial starting positions in the grid
+     * Creates the actors and inserts them into their initial starting positions in the grid based on predefined patterns/custom patterns
      *
+     * @param pattern the pattern specified by the user
      * @pre     the grid has been created
      * @post    all actors that comprise the initial state of the game have been added to the grid
      * 
@@ -160,7 +162,7 @@ public class GameOfLife
     }
 
     /**
-     * Creates an instance of this class. Provides convenient execution.
+     * Creates an instance of this class. Provides convenient execution. Allows user to choose a pattern.
      *
      */
     public static void main(String[] args)
@@ -215,13 +217,12 @@ public class GameOfLife
             System.out.println("How many milliseconds between iterations?");
             sleepTime = s.nextInt();
         }
-        else
+        else //default pattern
         {
             game = new GameOfLife(pattern);
         }
 
-        
-        
+        //delay and loop
         Thread.sleep(sleepTime);
         for(int i=0;i<iter;i++)
         {
