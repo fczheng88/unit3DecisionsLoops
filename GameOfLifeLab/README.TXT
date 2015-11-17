@@ -32,10 +32,11 @@ The universe of the Game of Life is an infinite two-dimensional orthogonal
     continue to be applied repeatedly to create further generations.
     -
 *The grid will be square, 10x10
-*Live cells are white, dead cells are black
-*Possible patterns: X, Edges, random
-*The game runs for as many generations as the user specifies up to infinite generations or until no progress is made for 100 generations
-*The time interval between generations is 1ms
+*Live cells are represented by rocks
+*Patterns - Default, line, and custom
+*Custom Patterns - Grid size and pattern may be defined
+*The game runs for 5 generations unless specified by user in a custom game
+*The time interval between generations is 1000 ms unless specified by user in a custom game
 *The edge is finite. Everything beyond is assumed to be dead.
 
 

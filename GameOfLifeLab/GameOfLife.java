@@ -18,7 +18,7 @@ public class GameOfLife
     // the world comprised of the grid that displays the graphics for the game
     private ActorWorld world;
 
-    // the game board will have 5 rows and 5 columns
+    // the game board will have these default values
     private static int ROWS = 10;
     private static int COLS = 10;
     private static int iter = 5;
@@ -30,7 +30,7 @@ public class GameOfLife
      * @post    the game will be initialized and populated with the initial state of cells
      * 
      */
-    public GameOfLife(String pattern) throws InterruptedException
+    public GameOfLife(String pattern)
     {
         // create the grid, of the specified size, that contains Actors
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
@@ -59,7 +59,7 @@ public class GameOfLife
         //  (alive cells contains actors; dead cells do not)
         Grid<Actor> grid = world.getGrid();
 
-        // create and add rocks (a type of Actor) to the three intial locations
+        // create and add rocks (a type of Actor) to the initial locations
         int[] x;
         int[] y;
         if(pattern.toLowerCase().equals("default"))
@@ -103,6 +103,7 @@ public class GameOfLife
          */
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
+        //new empty grid to store the next generation
         BoundedGrid<Actor> newGrid = new BoundedGrid<Actor>(ROWS,COLS);
 
         // insert magic here...
@@ -170,7 +171,7 @@ public class GameOfLife
         {
             System.out.println();
         }
-
+        
         GameOfLife game;
         
         String pattern = "default";
@@ -184,16 +185,28 @@ public class GameOfLife
         }
         else if(pattern.toLowerCase().equals("custom"))
         {
-            System.out.println("Rows?");
-            ROWS = s.nextInt();
-            System.out.println("Columns?");
-            COLS = s.nextInt();
-            game = new GameOfLife(pattern);
+            //need to test dims so that the grid/world is valid.
+            boolean acceptableDims = false;
+            while(acceptableDims!=true)
+            {
+                System.out.println("Rows?");
+                ROWS = s.nextInt();
+                if(ROWS >=1){acceptableDims=true;}
+            }
+            acceptableDims=false;
+            while(acceptableDims!=true)
+            {
+                System.out.println("Columns?");
+                COLS = s.nextInt();
+                if(COLS >=1){acceptableDims=true;}
+            }
+            game = new GameOfLife(pattern); //places rock to start.
             System.out.println("Would you like to remove the automatically-placed rock? (y/n)");
             String remRock = s.next();
             if(remRock.toLowerCase().equals("y"))
             {
                 game.world.getGrid().remove(new Location(0,0));
+                game.world.show();
             }
             System.out.println("Make your pattern, then enter any character and press enter.");
             s.next();
